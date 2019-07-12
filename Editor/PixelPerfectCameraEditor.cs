@@ -20,6 +20,8 @@ namespace UnityEditor.U2D
             public GUIContent currentPixelRatio = new GUIContent("Current Pixel Ratio", "Ratio of the rendered Sprites compared to their original size.");
             public GUIContent runInEditMode = new GUIContent("Run In Edit Mode", "Enable this to preview Camera setting changes in Edit Mode. This will cause constant changes to the Scene while active.");
 
+            public string srpWarning = "Pixel Perfect Camera in the 2D Pixel Perfect package isn't compatible with Scriptable Render Pipeline. If you are using the Lightweight Render Pipeline, you can swap this for the Pixel Perfect Camera component that ships with LWRP.";
+
             public GUIStyle centeredLabel;
 
             public Style()
@@ -87,6 +89,9 @@ namespace UnityEditor.U2D
         public override void OnInspectorGUI()
         {
             LazyInit();
+
+            if (UnityEngine.Rendering.GraphicsSettings.renderPipelineAsset != null)
+                EditorGUILayout.HelpBox(m_Style.srpWarning, MessageType.Warning);
 
             float originalLabelWidth = EditorGUIUtility.labelWidth;
 
@@ -167,7 +172,7 @@ namespace UnityEditor.U2D
                 if (obj.isActiveAndEnabled && (EditorApplication.isPlaying || obj.runInEditMode))
                 {
                     if (Event.current.type == EventType.Layout)
-                        m_CurrentPixelRatioValue.text = String.Format("{0}:1", obj.pixelRatio);
+                        m_CurrentPixelRatioValue.text = string.Format("{0}:1", obj.pixelRatio);
 
                     EditorGUI.BeginDisabledGroup(true);
                     EditorGUILayout.LabelField(m_Style.currentPixelRatio, m_CurrentPixelRatioValue);

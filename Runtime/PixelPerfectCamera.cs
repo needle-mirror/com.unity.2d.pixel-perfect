@@ -54,7 +54,25 @@ namespace UnityEngine.U2D
         /// <summary>
         /// Ratio of the rendered Sprites compared to their original size (readonly).
         /// </summary>
-        public int pixelRatio { get { return m_Internal.zoom; } }
+        public int pixelRatio
+        {
+            get
+            {
+#if CM_2_3_4_OR_NEWER
+                if (m_CinemachineCompatibilityMode)
+                {
+                    if (m_UpscaleRT)
+                        return m_Internal.zoom * m_Internal.cinemachineVCamZoom;
+                    else
+                        return m_Internal.cinemachineVCamZoom;
+                }
+                else
+#endif
+                {
+                    return m_Internal.zoom;
+                }
+            }
+        }
 
         /// <summary>
         /// Round a arbitrary position to an integer pixel position. Works in world space.
@@ -79,34 +97,35 @@ namespace UnityEngine.U2D
         }
 
         [SerializeField]
-        private int m_AssetsPPU = 100;
+        int m_AssetsPPU = 100;
 
         [SerializeField]
-        private int m_RefResolutionX = 320;
+        int m_RefResolutionX = 320;
 
         [SerializeField]
-        private int m_RefResolutionY = 180;
+        int m_RefResolutionY = 180;
 
         [SerializeField]
-        private bool m_UpscaleRT = false;
+        bool m_UpscaleRT = false;
 
         [SerializeField]
-        private bool m_PixelSnapping = false;
+        bool m_PixelSnapping = false;
 
         [SerializeField]
-        private bool m_CropFrameX = false;
+        bool m_CropFrameX = false;
 
         [SerializeField]
-        private bool m_CropFrameY = false;
+        bool m_CropFrameY = false;
 
         [SerializeField]
-        private bool m_StretchFill = false;
+        bool m_StretchFill = false;
 
-        private Camera m_Camera;
-        private PixelPerfectCameraInternal m_Internal;
+        Camera m_Camera;
+        PixelPerfectCameraInternal m_Internal;
+        bool m_CinemachineCompatibilityMode;
 
         // Snap camera position to pixels using Camera.worldToCameraMatrix.
-        private void PixelSnap()
+        void PixelSnap()
         {
             Vector3 cameraPosition = m_Camera.transform.position;
             Vector3 roundedCameraPosition = RoundToPixel(cameraPosition);
@@ -117,7 +136,21 @@ namespace UnityEngine.U2D
             m_Camera.worldToCameraMatrix = offsetMatrix * m_Camera.transform.worldToLocalMatrix;
         }
 
-        private void Awake()
+#if CM_2_3_4_OR_NEWER
+        // Find a pixel-perfect orthographic size as close to targetOrthoSize as possible.
+        // Will also put us into Cinemachine compatibility mode.
+        internal float CorrectCinemachineOrthoSize(float targetOrthoSize)
+        {
+            m_CinemachineCompatibilityMode = true;
+
+            if (m_Internal == null)
+                return targetOrthoSize;
+            else
+                return m_Internal.CorrectCinemachineOrthoSize(targetOrthoSize);
+        }
+#endif
+
+        void Awake()
         {
             m_Camera = GetComponent<Camera>();
             m_Internal = new PixelPerfectCameraInternal(this);
@@ -129,8 +162,21 @@ namespace UnityEngine.U2D
                 Debug.LogWarning("Render to texture is not supported by Pixel Perfect Camera.", m_Camera);
         }
 
-        private void LateUpdate()
+        void LateUpdate()
         {
+#if CM_2_3_4_OR_NEWER
+#if UNITY_EDITOR
+            if (!UnityEditor.EditorApplication.isPaused)
+#endif
+            {
+                // Reset the Cinemachine compatibility mode every frame.
+                // If any CinemachinePixelPerfect extension is present, they will turn this on 
+                // at a later time (during CinemachineBrain's LateUpdate(), which is 
+                // guaranteed to be after PixelPerfectCamera's LateUpdate()).
+                m_CinemachineCompatibilityMode = false;
+            }
+#endif
+
             m_Internal.CalculateCameraProperties(Screen.width, Screen.height);
 
             // To be effective immediately this frame, forceIntoRenderTexture should be set before any camera rendering callback.
@@ -139,7 +185,7 @@ namespace UnityEngine.U2D
             m_Camera.forceIntoRenderTexture = m_Internal.hasPostProcessLayer || m_Internal.useOffscreenRT;
         }
 
-        private void OnPreCull()
+        void OnPreCull()
         {
 #if UNITY_EDITOR
             // LateUpdate() is not called while the editor is paused, but OnPreCull() is.
@@ -155,22 +201,31 @@ namespace UnityEngine.U2D
             else
                 m_Camera.rect = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
 
-            m_Camera.orthographicSize = m_Internal.orthoSize;
+#if CM_2_3_4_OR_NEWER
+            // In Cinemachine compatibility mode the control over orthographic size should
+            // be given to the virtual cameras, whose orthographic sizes will be corrected to
+            // be pixel-perfect. This way when there's blending between virtual cameras, we
+            // can have temporary not-pixel-perfect but smooth transitions.
+            if (!m_CinemachineCompatibilityMode)
+#endif
+            {
+                m_Camera.orthographicSize = m_Internal.orthoSize;
+            }
         }
 
-        private void OnPreRender()
+        void OnPreRender()
         {
             // Clear the screen to black so that we can see black bars.
             // Need to do it before anything is drawn if we're rendering directly to the screen.
             if (m_Internal.cropFrameXOrY && !m_Camera.forceIntoRenderTexture && !m_Camera.allowMSAA)
                 GL.Clear(false, true, Color.black);
 
-            Experimental.U2D.PixelPerfectRendering.pixelSnapSpacing = m_Internal.unitsPerPixel;
+            PixelPerfectRendering.pixelSnapSpacing = m_Internal.unitsPerPixel;
         }
 
-        private void OnPostRender()
+        void OnPostRender()
         {
-            Experimental.U2D.PixelPerfectRendering.pixelSnapSpacing = 0.0f;
+            PixelPerfectRendering.pixelSnapSpacing = 0.0f;
 
             // Clear the screen to black so that we can see black bars.
             // If a temporary offscreen RT is used, we do the clear after we're done with that RT to avoid an unnecessary RT switch. 
@@ -192,14 +247,14 @@ namespace UnityEngine.U2D
         }
 
 #if UNITY_EDITOR
-        private void OnEnable()
+        void OnEnable()
         {
             if (!UnityEditor.EditorApplication.isPlaying)
                 UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeChanged;
         }
 #endif
 
-        public void OnDisable()
+        internal void OnDisable()
         {
             m_Camera.rect = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
             m_Camera.orthographicSize = m_Internal.originalOrthoSize;
@@ -213,12 +268,10 @@ namespace UnityEngine.U2D
 #endif
         }
 
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
         // Show on-screen warning about invalid render resolutions.
-        private void OnGUI()
+        void OnGUI()
         {
-            if (!Debug.isDebugBuild && !Application.isEditor)
-                return;
-
 #if UNITY_EDITOR
             if (!UnityEditor.EditorApplication.isPlaying && !runInEditMode)
                 return;
@@ -244,9 +297,10 @@ namespace UnityEngine.U2D
 
             GUI.color = oldColor;
         }
+#endif
 
 #if UNITY_EDITOR
-        private void OnPlayModeChanged(UnityEditor.PlayModeStateChange state)
+        void OnPlayModeChanged(UnityEditor.PlayModeStateChange state)
         {
             // Stop running in edit mode when entering play mode.
             if (state == UnityEditor.PlayModeStateChange.ExitingEditMode)

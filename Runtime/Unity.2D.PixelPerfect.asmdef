@@ -1,8 +1,20 @@
 {
     "name": "Unity.2D.PixelPerfect",
-    "references": [],
-    "optionalUnityReferences": [],
+    "references": [
+        "GUID:4307f53044263cf4b835bd812fc161a4"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.cinemachine",
+            "expression": "2.3.4",
+            "define": "CM_2_3_4_OR_NEWER"
+        }
+    ]
 }

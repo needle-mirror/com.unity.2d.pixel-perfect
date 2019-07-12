@@ -14,9 +14,18 @@ namespace UnityEngine.U2D
         bool stretchFill { get; set; }
     }
 
-    internal class PixelPerfectCameraInternal
+    [Serializable]
+    internal class PixelPerfectCameraInternal : ISerializationCallbackReceiver
     {
-        private IPixelPerfectCamera m_Component;
+        // Case 1061634: 
+        // In order for this class to survive hot reloading, we need to make the fields serializable.
+        // Unity can't serialize an interface object, but does properly serialize UnityEngine.Object. 
+        // So we cast the reference to PixelPerfectCamera (which inherits UnityEngine.Object) 
+        // before serialization happens, and restore the interface reference after deserialization.
+        [NonSerialized]
+        IPixelPerfectCamera m_Component;
+
+        PixelPerfectCamera m_SerializableComponent;
 
         internal float originalOrthoSize;
         internal bool hasPostProcessLayer;
@@ -30,10 +39,22 @@ namespace UnityEngine.U2D
         internal Rect pixelRect = Rect.zero;
         internal float orthoSize = 1.0f;
         internal float unitsPerPixel = 0.0f;
+        internal int cinemachineVCamZoom = 1;
 
         internal PixelPerfectCameraInternal(IPixelPerfectCamera component)
         {
             m_Component = component;
+        }
+
+        public void OnBeforeSerialize()
+        {
+            m_SerializableComponent = m_Component as PixelPerfectCamera;
+        }
+
+        public void OnAfterDeserialize()
+        {
+            if (m_SerializableComponent != null)
+                m_Component = m_SerializableComponent;
         }
 
         internal void CalculateCameraProperties(int screenWidth, int screenHeight)
@@ -188,5 +209,30 @@ namespace UnityEngine.U2D
 
             return pixelRect;
         }
+
+#if CM_2_3_4_OR_NEWER
+        // Find a pixel-perfect orthographic size as close to targetOrthoSize as possible.
+        internal float CorrectCinemachineOrthoSize(float targetOrthoSize)
+        {
+            float correctedOrthoSize;
+
+            if (m_Component.upscaleRT)
+            {
+                cinemachineVCamZoom = Math.Max(1, Mathf.RoundToInt(orthoSize / targetOrthoSize));
+                correctedOrthoSize = orthoSize / cinemachineVCamZoom;
+            }
+            else
+            {
+                cinemachineVCamZoom = Math.Max(1, Mathf.RoundToInt(zoom * orthoSize / targetOrthoSize));
+                correctedOrthoSize = zoom * orthoSize / cinemachineVCamZoom;
+            }
+
+            // In this case the actual zoom level is cinemachineVCamZoom instead of zoom.
+            if (!m_Component.upscaleRT && !m_Component.pixelSnapping)
+                unitsPerPixel = 1.0f / (cinemachineVCamZoom * m_Component.assetsPPU);
+
+            return correctedOrthoSize;
+        }
+#endif
     }
 }

@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.0.2] - 2019-07-13
+
+### Changed
+
+- Mark package to support Unity 2019.3.0a10 onwards.
+
+## [2.0.1] - 2019-07-12
+
+### Changed
+
+- Deploy Samples as UnityPackage.
+
+## [2.0.0] - 2019-07-05
+
+### Added
+
+- Added CinemachinePixelPerfect, a Cinemachine Virtual Camera Extension that solves some compatibility issues between Cinemachine and Pixel Perfect Camera.
+
+### Fixed
+
+- Fixed an issue where recompiling scripts while a Pixel Perfect Camera is running would cause null reference exeptions.
+
 ## [1.0.1-preview] - 2018-06-19
 
 ### Changed
