@@ -1,8 +1,8 @@
 {
   "name": "com.unity.2d.pixel-perfect",
   "displayName": "2D Pixel Perfect",
-  "version": "2.0.2",
-  "unity": "2019.3",
+  "version": "3.0.0",
+  "unity": "2020.1",
   "unityRelease": "0a10",
   "description": "The 2D Pixel Perfect package contains the Pixel Perfect Camera component which ensures your pixel art remains crisp and clear at different resolutions, and stable in motion.\n\nIt is a single component that makes all the calculations needed to scale the viewport with resolution changes, removing the hassle from the user. The user can adjust the definition of the pixel art rendered within the camera viewport through the component settings, as well preview any changes immediately in Game view by using the Run in Edit Mode feature.",
   "keywords": [
@@ -22,6 +22,6 @@
   "repository": {
     "type": "git",
     "url": "git@github.cds.internal.unity3d.com:unity/2d.git",
-    "revision": "c06ab256c978bcb77ea807a86d299acfbe47f10b"
+    "revision": "b8688c8a88e8066298fc5f686b999b70d457883e"
   }
 }

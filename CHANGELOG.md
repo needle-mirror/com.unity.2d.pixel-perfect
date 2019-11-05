@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.0.0] - 2019-11-06
+### Changed
+- Update version number for Unity 2020.1
+- Deprecated the CinemachinePixelPerfect extension. Use the one from Cinemachine v2.4 instead.
+
 ## [2.0.2] - 2019-07-13
 
 ### Changed
