@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.0.3] - 2019-11-06
+
+### Changed
+- Deprecated the CinemachinePixelPerfect extension. Use the one from Cinemachine v2.4 instead.
+
 ## [2.0.2] - 2019-07-13
 
 ### Changed
