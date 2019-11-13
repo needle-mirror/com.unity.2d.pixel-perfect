@@ -5,7 +5,7 @@ using UnityEngine.U2D;
 namespace UnityEditor.U2D
 {
     [CustomEditor(typeof(PixelPerfectCamera))]
-    public class PixelPerfectCameraEditor : Editor
+    class PixelPerfectCameraEditor : Editor
     {
         private class Style
         {
