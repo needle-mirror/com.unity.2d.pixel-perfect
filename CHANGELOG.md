@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.4] - 2019-12-02
+
+### Changed
+- Deploy samples as individual files.
+- Changed License file
+
 ## [2.0.3] - 2019-11-06
 
 ### Changed
