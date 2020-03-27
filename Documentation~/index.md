@@ -96,4 +96,6 @@ Crops the viewport along the checked axis with black bars to match the __Referen
 | :-----------------------------------------: | :---------------------------------------: |
 |                  Uncropped                  |                  Cropped                  |
 
+## Cinemachine Extension
 
+As both the __Pixel Perfect Camera__ and [Cinemachine](https://docs.unity3d.com/Packages/com.unity.cinemachine@latest) modify a Camera’s orthographic size, using these two systems together in a single Scene would cause them to fight for control over the Camera and likely produce unwanted results. To solve this incompatibility, add the [Cinemachine Pixel Perfect](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.4/manual/CinemachinePixelPerfect.html) extension to your [virtual cameras](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.4/manual/CinemachineSetUpVCam.html). You can find more information about the extension’s features in the [Cinemachine documentation](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.4/manual/CinemachinePixelPerfect.html).

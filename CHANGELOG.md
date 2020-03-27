@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.2] - 2020-03-28
+
+### Fixed
+
+- Fixed an issue where Cinemachine Pixel Perfect Extension didn't work when CinemachineBrain Update Method is anything other than Late Update.
+
 ## [3.0.1] - 2019-11-14
 
 ### Changed

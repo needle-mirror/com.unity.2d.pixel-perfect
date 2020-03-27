@@ -163,17 +163,6 @@ namespace UnityEngine.U2D
 
         void LateUpdate()
         {
-#if UNITY_EDITOR
-            if (!UnityEditor.EditorApplication.isPaused)
-#endif
-            {
-                // Reset the Cinemachine compatibility mode every frame.
-                // If any CinemachinePixelPerfect extension is present, they will turn this on 
-                // at a later time (during CinemachineBrain's LateUpdate(), which is 
-                // guaranteed to be after PixelPerfectCamera's LateUpdate()).
-                m_CinemachineCompatibilityMode = false;
-            }
-
             m_Internal.CalculateCameraProperties(Screen.width, Screen.height);
 
             // To be effective immediately this frame, forceIntoRenderTexture should be set before any camera rendering callback.
@@ -241,13 +230,15 @@ namespace UnityEngine.U2D
             m_Camera.pixelRect = m_Internal.CalculatePostRenderPixelRect(m_Camera.aspect, Screen.width, Screen.height);
         }
 
-#if UNITY_EDITOR
         void OnEnable()
         {
+            m_CinemachineCompatibilityMode = false;
+
+#if UNITY_EDITOR
             if (!UnityEditor.EditorApplication.isPlaying)
                 UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeChanged;
-        }
 #endif
+        }
 
         internal void OnDisable()
         {
