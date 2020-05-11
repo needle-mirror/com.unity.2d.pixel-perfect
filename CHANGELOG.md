@@ -1,5 +1,9 @@
 # Changelog
 
+## [4.0.0] - 2020-05-11
+### Changed
+- Version bump for Unity 2020.2
+
 ## [3.0.2] - 2020-03-28
 
 ### Fixed
