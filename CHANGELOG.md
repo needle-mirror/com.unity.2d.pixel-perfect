@@ -1,6 +1,13 @@
 # Changelog
 
+## [4.0.1] - 2020-06-10
+
+### Fixed
+
+- Fixed the broken documentation URL of the Component.
+
 ## [4.0.0] - 2020-05-11
+
 ### Changed
 - Version bump for Unity 2020.2
 

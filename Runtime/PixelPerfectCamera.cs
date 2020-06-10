@@ -6,6 +6,7 @@ namespace UnityEngine.U2D
     [DisallowMultipleComponent]
     [AddComponentMenu("Rendering/Pixel Perfect Camera")]
     [RequireComponent(typeof(Camera))]
+    [HelpURL("https://docs.unity3d.com/Packages/com.unity.2d.pixel-perfect@latest/index.html?subfolder=/manual/index.html%23properties")]
     public class PixelPerfectCamera : MonoBehaviour, IPixelPerfectCamera
     {
         /// <summary>
