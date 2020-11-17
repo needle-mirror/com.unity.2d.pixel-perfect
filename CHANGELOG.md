@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.1.0] - 2020-11-17
+
+###Changed
+- Minor version bump due to change in required Unity version
+
 ## [2.0.4] - 2019-12-02
 
 ### Changed
