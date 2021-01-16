@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.0.0-pre.2] - 2021-01-16
+### Changed
+- Update license file
+
 ## [5.0.0-pre.1] - 2020-10-30
 ### Changed
 - Version bump for Unity 2021.1
