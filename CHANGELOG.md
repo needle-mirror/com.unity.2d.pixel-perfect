@@ -1,5 +1,9 @@
 # Changelog
 
+## [5.0.0] - 2021-03-17
+### Changed
+- Update version for release
+
 ## [5.0.0-pre.2] - 2021-01-16
 ### Changed
 - Update license file
