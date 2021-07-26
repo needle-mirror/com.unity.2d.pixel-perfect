@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.1] - 2021-07-26
+### Fixed
+- Fixed a bug where clear buffer was executed out of order (case 129263)
+
+### Changed
+- Update compatibility warning text (case 1337165)
+
 ## [5.0.0] - 2021-03-17
 ### Changed
 - Update version for release

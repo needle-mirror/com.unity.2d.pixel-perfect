@@ -202,7 +202,7 @@ namespace UnityEngine.U2D
         {
             // Clear the screen to black so that we can see black bars.
             // Need to do it before anything is drawn if we're rendering directly to the screen.
-            if (m_Internal.cropFrameXOrY && !m_Camera.forceIntoRenderTexture && !m_Camera.allowMSAA)
+            if (m_Internal.cropFrameXOrY)
                 GL.Clear(false, true, Color.black);
 
             PixelPerfectRendering.pixelSnapSpacing = m_Internal.unitsPerPixel;
@@ -211,15 +211,6 @@ namespace UnityEngine.U2D
         void OnPostRender()
         {
             PixelPerfectRendering.pixelSnapSpacing = 0.0f;
-
-            // Clear the screen to black so that we can see black bars.
-            // If a temporary offscreen RT is used, we do the clear after we're done with that RT to avoid an unnecessary RT switch. 
-            if (m_Camera.activeTexture != null)
-            {
-                Graphics.SetRenderTarget(null as RenderTexture);
-                GL.Viewport(new Rect(0.0f, 0.0f, Screen.width, Screen.height));
-                GL.Clear(false, true, Color.black);
-            }
 
             if (!m_Internal.useOffscreenRT)
                 return;

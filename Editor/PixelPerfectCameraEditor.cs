@@ -20,7 +20,7 @@ namespace UnityEditor.U2D
             public GUIContent currentPixelRatio = new GUIContent("Current Pixel Ratio", "Ratio of the rendered Sprites compared to their original size.");
             public GUIContent runInEditMode = new GUIContent("Run In Edit Mode", "Enable this to preview Camera setting changes in Edit Mode. This will cause constant changes to the Scene while active.");
 
-            public string srpWarning = "Pixel Perfect Camera in the 2D Pixel Perfect package isn't compatible with Scriptable Render Pipeline. If you are using the Lightweight Render Pipeline, you can swap this for the Pixel Perfect Camera component that ships with LWRP.";
+            public string srpWarning = "Pixel Perfect Camera in the 2D Pixel Perfect package isn't compatible with Scriptable Render Pipeline. If you are using the Universal Render Pipeline, you can swap this for the Pixel Perfect Camera component that ships with URP.";
 
             public GUIStyle centeredLabel;
 
