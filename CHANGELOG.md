@@ -1,6 +1,16 @@
 # Changelog
 
-## [5.0.1] - 2021-07-26
+## [5.0.2] - 2022-08-03
+### Added
+- Added URP Pixel Perfect Camera converter
+
+### Fixed
+- Removed AudioModule package dependency from sample project
+
+### Changed
+- Hide duplicate Pixel Perfect menus if URP Package is installed
+
+## [5.0.1] - 2021-08-06
 ### Fixed
 - Fixed a bug where clear buffer was executed out of order (case 129263)
 

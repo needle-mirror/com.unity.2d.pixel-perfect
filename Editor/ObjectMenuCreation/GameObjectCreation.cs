@@ -8,13 +8,15 @@ namespace UnityEditor.U2D
     static class GameObjectCreation
     {
         const int k_PixelPerfectCameraGameObjectMenuPriority = 5;
-        
+
+#if !ENABLE_URP
         [MenuItem("GameObject/2D Object/Pixel Perfect Camera", priority = k_PixelPerfectCameraGameObjectMenuPriority)]
         static void GameObjectCreatePixelPerfectCamera(MenuCommand menuCommand)
         {
             var go = CreateGameObject("Pixel Perfect Camera", menuCommand, new []{typeof(PixelPerfectCamera)});
             go.GetComponent<PixelPerfectCamera>().pixelSnapping = true;
         }
+#endif
         
         static public GameObject CreateGameObject(string name, MenuCommand menuCommand, params Type[] components)
         {

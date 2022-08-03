@@ -4,7 +4,11 @@ namespace UnityEngine.U2D
     /// The Pixel Perfect Camera component ensures your pixel art remains crisp and clear at different resolutions, and stable in motion.
     /// </summary>
     [DisallowMultipleComponent]
+#if ENABLE_URP
+    [AddComponentMenu("")]
+#else
     [AddComponentMenu("Rendering/Pixel Perfect Camera")]
+#endif
     [RequireComponent(typeof(Camera))]
     [HelpURL("https://docs.unity3d.com/Packages/com.unity.2d.pixel-perfect@latest/index.html?subfolder=/manual/index.html%23properties")]
     public class PixelPerfectCamera : MonoBehaviour, IPixelPerfectCamera

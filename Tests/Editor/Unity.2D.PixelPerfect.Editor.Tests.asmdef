@@ -18,5 +18,11 @@
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
     ],
-    "versionDefines": []
+    "versionDefines": [
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "14.0.0",
+            "define": "ENABLE_URP_14_0_0_OR_NEWER"
+        }
+    ]
 }

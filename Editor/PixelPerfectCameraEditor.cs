@@ -20,7 +20,13 @@ namespace UnityEditor.U2D
             public GUIContent currentPixelRatio = new GUIContent("Current Pixel Ratio", "Ratio of the rendered Sprites compared to their original size.");
             public GUIContent runInEditMode = new GUIContent("Run In Edit Mode", "Enable this to preview Camera setting changes in Edit Mode. This will cause constant changes to the Scene while active.");
 
-            public string srpWarning = "Pixel Perfect Camera in the 2D Pixel Perfect package isn't compatible with Scriptable Render Pipeline. If you are using the Universal Render Pipeline, you can swap this for the Pixel Perfect Camera component that ships with URP.";
+            public static string srpWarning = "Pixel Perfect Camera in the 2D Pixel Perfect package isn't compatible with Scriptable Render Pipeline. If you are using the Universal Render Pipeline, you can upgrade this to the Pixel Perfect Camera component that ships with URP.";
+            
+            public static GUIContent pixelPerfectButtonUpgrade = EditorGUIUtility.TrTextContent("Upgrade Pixel Perfect Camera");
+            public static string pixelPerfectDialogUpgrade = "The upgrade will convert the selected Pixel Perfect Camera to the URP version. You can't undo this operation.";
+            public static string pixelPerfectDialogTitle = "Pixel Perfect Camera Converter";
+            public static string pixelPerfectDialogProceed = "Proceed";
+            public static string pixelPerfectDialogCancel = "Cancel";
 
             public GUIStyle centeredLabel;
 
@@ -91,7 +97,25 @@ namespace UnityEditor.U2D
             LazyInit();
 
             if (UnityEngine.Rendering.GraphicsSettings.renderPipelineAsset != null)
-                EditorGUILayout.HelpBox(m_Style.srpWarning, MessageType.Warning);
+            {
+                EditorGUILayout.HelpBox(Style.srpWarning, MessageType.Warning);
+
+#if ENABLE_URP_14_0_0_OR_NEWER
+                if (GUILayout.Button(Style.pixelPerfectButtonUpgrade))
+                {
+                    if (EditorUtility.DisplayDialog(Style.pixelPerfectDialogTitle, Style.pixelPerfectDialogUpgrade, Style.pixelPerfectDialogProceed, Style.pixelPerfectDialogCancel))
+                    {
+                        for (int i = 0; i < targets.Length; i++)
+                        {
+                            var cam = targets[i] as PixelPerfectCamera;
+                            UnityEditor.Rendering.Universal.U2DToURPPixelPerfectConverter.UpgradePixelPerfectCamera(cam);
+                        }
+                    }
+                }
+#endif
+
+                return;
+            }
 
             float originalLabelWidth = EditorGUIUtility.labelWidth;
 

@@ -16,14 +16,12 @@ public class Hero : MonoBehaviour
     public PlayerState playerState = PlayerState.Alive;
     public Vector2 lookFacing;
 	public Vector2 respawnPoint;
-    AudioSource audioSource;
     float dashCooldown = 0f;
     public bool dead = false;
 
 	void Start() {
         rb = GetComponent<Rigidbody2D>();
         animator.SetBool("alive", true);
-        audioSource = GetComponent<AudioSource>();
     }
 	void Update () 
 	{
@@ -65,8 +63,6 @@ public class Hero : MonoBehaviour
                 }
 
                 transform.position = rb.position + Vector2.ClampMagnitude(tryMove, 1f) * distance;
-
-                if (audioSource != null) audioSource.Play();
             }
         }
 
