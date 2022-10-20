@@ -1,6 +1,13 @@
 # Changelog
 
-## [5.0.2] - 2022-08-03
+## [5.0.3] - 2022-10-20
+### Added
+- Added editor assembly reference to Unity.RenderPipelines.Universal.2D.Runtime
+
+### Changed
+- Move internal tests to Pixel Perfect Tests package
+
+## [5.0.2] - 2022-09-21
 ### Added
 - Added URP Pixel Perfect Camera converter
 

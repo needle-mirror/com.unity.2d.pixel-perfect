@@ -1,8 +1,8 @@
 using NUnit.Framework;
 
-namespace UnityEngine.U2D
+namespace UnityEngine.U2D.PixelPerfect.Tests
 {
-    internal class PixelPerfectCameraEditorTests
+    internal class PlaceHolder
     {
         [Test]
         public void PlaceHolderTest()
