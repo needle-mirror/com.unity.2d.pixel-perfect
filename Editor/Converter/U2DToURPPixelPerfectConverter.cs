@@ -4,7 +4,13 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using U2DPackage = UnityEngine.U2D;
+
+#if UNITY_6000_0_OR_NEWER
+using URPPackage = UnityEngine.Rendering.Universal;
+#else
 using URPPackage = UnityEngine.Experimental.Rendering.Universal;
+#endif //UNITY_6000_0_OR_NEWER
+
 
 namespace UnityEditor.Rendering.Universal
 {
@@ -58,7 +64,7 @@ namespace UnityEditor.Rendering.Universal
             }
 
             UnityEngine.Object.DestroyImmediate(cam, true);
-            
+
             EditorUtility.SetDirty(urpCam);
 
             return true;
@@ -67,7 +73,7 @@ namespace UnityEditor.Rendering.Universal
         void UpgradeGameObject(GameObject go)
         {
             var cam = go.GetComponentInChildren<U2DPackage.PixelPerfectCamera>();
-            
+
             if(cam != null)
                 UpgradePixelPerfectCamera(cam);
         }

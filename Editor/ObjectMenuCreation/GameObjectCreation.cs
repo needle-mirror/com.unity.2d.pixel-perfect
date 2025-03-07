@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -13,11 +13,11 @@ namespace UnityEditor.U2D
         [MenuItem("GameObject/2D Object/Pixel Perfect Camera", priority = k_PixelPerfectCameraGameObjectMenuPriority)]
         static void GameObjectCreatePixelPerfectCamera(MenuCommand menuCommand)
         {
-            var go = CreateGameObject("Pixel Perfect Camera", menuCommand, new []{typeof(PixelPerfectCamera)});
+            var go = CreateGameObject("Pixel Perfect Camera", menuCommand, new[] { typeof(PixelPerfectCamera) });
             go.GetComponent<PixelPerfectCamera>().pixelSnapping = true;
         }
 #endif
-        
+
         static public GameObject CreateGameObject(string name, MenuCommand menuCommand, params Type[] components)
         {
             var parent = menuCommand.context as GameObject;
@@ -34,7 +34,7 @@ namespace UnityEditor.U2D
             Undo.RegisterCreatedObjectUndo(newGO, string.Format("Create {0}", name));
             return newGO;
         }
-        
+
         internal static void Place(GameObject go, GameObject parentTransform)
         {
             if (parentTransform != null)
@@ -61,7 +61,7 @@ namespace UnityEditor.U2D
             Undo.SetCurrentGroupName("Create " + go.name);
             Selection.activeGameObject = go;
         }
-        
+
         internal static void PlaceGameObjectInFrontOfSceneView(GameObject go)
         {
             var view = SceneView.lastActiveSceneView;

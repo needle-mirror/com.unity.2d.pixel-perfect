@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.1.0] - 2025-03-07
+### Changed
+- Update minimum Unity version to 2021.3
+
+### Fixed
+- Update usage of URP namespace.
+- Fixed package dependencies.
+
 ## [5.0.3] - 2022-10-20
 ### Added
 - Added editor assembly reference to Unity.RenderPipelines.Universal.2D.Runtime

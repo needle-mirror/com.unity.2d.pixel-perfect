@@ -21,7 +21,7 @@ namespace UnityEditor.U2D
             public GUIContent runInEditMode = new GUIContent("Run In Edit Mode", "Enable this to preview Camera setting changes in Edit Mode. This will cause constant changes to the Scene while active.");
 
             public static string srpWarning = "Pixel Perfect Camera in the 2D Pixel Perfect package isn't compatible with Scriptable Render Pipeline. If you are using the Universal Render Pipeline, you can upgrade this to the Pixel Perfect Camera component that ships with URP.";
-            
+
             public static GUIContent pixelPerfectButtonUpgrade = EditorGUIUtility.TrTextContent("Upgrade Pixel Perfect Camera");
             public static string pixelPerfectDialogUpgrade = "The upgrade will convert the selected Pixel Perfect Camera to the URP version. You can't undo this operation.";
             public static string pixelPerfectDialogTitle = "Pixel Perfect Camera Converter";
@@ -96,7 +96,7 @@ namespace UnityEditor.U2D
         {
             LazyInit();
 
-            if (UnityEngine.Rendering.GraphicsSettings.renderPipelineAsset != null)
+            if (UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline != null)
             {
                 EditorGUILayout.HelpBox(Style.srpWarning, MessageType.Warning);
 

@@ -1,4 +1,4 @@
-com.unity.2d.pixel-perfect copyright © 2020 Unity Technologies ApS
+com.unity.2d.pixel-perfect copyright © 2025 Unity Technologies SF
 
 Licensed under the Unity Companion License for Unity-dependent projects (see https://unity3d.com/legal/licenses/unity_companion_license).
 
