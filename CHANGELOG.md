@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.0.0] - 2026-03-05
+### Changed
+- Updated minimum Unity version to 6000.5
+
+### Removed
+- Removed Pixel Perfect Camera Converter as now lives in the URP package.
+
 ## [5.1.0] - 2025-03-07
 ### Changed
 - Update minimum Unity version to 2021.3
